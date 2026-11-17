@@ -27,8 +27,6 @@ Everything runs in your browser.</p>
 <div class="row"><output id="ballot"></output><button type="button" data-copy="ballot">Copy</button></div>
 <h2>Zebra <code>[mining]</code> config</h2>
 <div class="row"><output id="zebra"></output><button type="button" data-copy="zebra">Copy</button></div>
-<h2>Hex</h2>
-<div class="row"><output id="hex"></output><button type="button" data-copy="hex">Copy</button></div>
 
 <script>
 const ELECTION = "nu7-1";
@@ -78,10 +76,8 @@ function update() {
   const answers = QUESTIONS.map((_, i) => form.elements[`q${i}`].value);
   const none = answers.every(a => a === "-");
   const ballot = `zpoll:${ELECTION}:${answers.join("")}/`;
-  const hex = [...new TextEncoder().encode(ballot)].map(b => b.toString(16).padStart(2, "0")).join("");
   document.getElementById("ballot").value = none ? "Answer at least one question." : ballot;
   document.getElementById("zebra").value = none ? "" : `extra_coinbase_data = "/MyPool/ ${ballot}"`;
-  document.getElementById("hex").value = none ? "" : hex;
   document.querySelectorAll("[data-copy]").forEach(button => button.disabled = none);
 }
 form.addEventListener("change", update);
